@@ -1,803 +1,120 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الخرافية – Worm GPT Pro</title>
-    <!-- أيقونات -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- خط -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>متجر المستقبل (نسخة المحاكاة الأرشيفية)</title>
     <style>
-        /* ===== Reset & Global ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #080c18;
-            color: #f0f4ff;
-            min-height: 100vh;
-            display: flex;
-            overflow: hidden;
-            direction: rtl;
-        }
-        /* شريط التمرير المخصص */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #0f1a2e; }
-        ::-webkit-scrollbar-thumb { background: #6c5ce7; border-radius: 20px; }
-
-        /* ===== خلفية متحركة ===== */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            background: radial-gradient(circle at 20% 50%, #1a1040, #080c18 70%);
-            overflow: hidden;
-        }
-        .bg-animation .circle {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: float 12s infinite alternate ease-in-out;
-        }
-        .bg-animation .c1 { width: 300px; height: 300px; background: #6c5ce7; top: -10%; left: -5%; }
-        .bg-animation .c2 { width: 400px; height: 400px; background: #00b4d8; bottom: -15%; right: -5%; animation-duration: 18s; }
-        .bg-animation .c3 { width: 200px; height: 200px; background: #f72585; top: 40%; left: 40%; animation-duration: 15s; }
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(40px, -40px) scale(1.2); }
-        }
-
-        /* ===== الشريط الجانبي (Sidebar) ===== */
-        .sidebar {
-            width: 100px;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem 0.5rem;
-            z-index: 10;
-            position: relative;
-            height: 100vh;
-            flex-shrink: 0;
-            transition: 0.3s;
-        }
-        .sidebar .logo {
-            font-size: 2.2rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #6c5ce7, #00b4d8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 2.5rem;
-            text-align: center;
-            line-height: 1.2;
-        }
-        .sidebar .logo small {
-            font-size: 0.5rem;
-            display: block;
-            -webkit-text-fill-color: #94a3b8;
-            color: #94a3b8;
-            letter-spacing: 2px;
-        }
-        .sidebar .nav-item {
-            width: 70px;
-            height: 70px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 20px;
-            color: #64748b;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 0.5rem;
-            border: 1px solid transparent;
-            position: relative;
-            font-size: 0.65rem;
-            gap: 4px;
-        }
-        .sidebar .nav-item i {
-            font-size: 1.6rem;
-            margin-bottom: 2px;
-        }
-        .sidebar .nav-item:hover {
-            background: rgba(108, 92, 231, 0.1);
-            color: #fff;
-            border-color: rgba(108, 92, 231, 0.2);
-        }
-        .sidebar .nav-item.active {
-            background: rgba(108, 92, 231, 0.2);
-            color: #fff;
-            border-color: #6c5ce7;
-            box-shadow: 0 0 30px rgba(108, 92, 231, 0.15);
-        }
-        .sidebar .nav-item .badge {
-            position: absolute;
-            top: 6px;
-            right: 10px;
-            background: #f72585;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-        .sidebar .bottom {
-            margin-top: auto;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 1.5rem;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* ===== المحتوى الرئيسي ===== */
-        .main-content {
-            flex: 1;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-        /* رأس الصفحة */
-        .top-bar {
-            padding: 1.2rem 2rem;
-            background: rgba(8, 12, 24, 0.4);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-        .top-bar .title h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-        .top-bar .title span {
-            color: #6c5ce7;
-        }
-        .top-bar .actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        .top-bar .actions .status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(34, 197, 94, 0.1);
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            color: #4ade80;
-            font-size: 0.75rem;
-            border: 1px solid rgba(34, 197, 94, 0.2);
-        }
-        .top-bar .actions .status .dot {
-            width: 8px;
-            height: 8px;
-            background: #4ade80;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        /* ===== منطقة الأدوات (يظهر منها أداة واحدة) ===== */
-        .tools-container {
-            flex: 1;
-            padding: 1.5rem 2rem 2rem 2rem;
-            overflow-y: auto;
-            height: 100%;
-        }
-        .tool-panel {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-            animation: fadeSlide 0.4s ease;
-        }
-        .tool-panel.active {
-            display: flex;
-        }
-        @keyframes fadeSlide {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ===== تصميم الأدوات المشترك ===== */
-        .tool-header {
-            margin-bottom: 1.5rem;
-        }
-        .tool-header h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        .tool-header p {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        /* ===== صندوق الدردشة ===== */
-        .chat-box {
-            background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 24px;
-            padding: 1.5rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 400px;
-        }
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-        .message {
-            padding: 0.8rem 1.2rem;
-            border-radius: 18px;
-            max-width: 85%;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-        .message.user {
-            background: #6c5ce7;
-            color: white;
-            align-self: flex-end;
-            border-bottom-left-radius: 4px;
-        }
-        .message.ai {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(255,255,255,0.05);
-            align-self: flex-start;
-            border-bottom-right-radius: 4px;
-            color: #e2e8f0;
-        }
-        .message.ai .loading-dots::after {
-            content: '...';
-            animation: dots 1.5s steps(3, end) infinite;
-        }
-        @keyframes dots { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } }
-
-        .chat-input-area {
-            display: flex;
-            gap: 0.8rem;
-            align-items: center;
-            background: rgba(0,0,0,0.3);
-            padding: 0.4rem 0.4rem 0.4rem 1rem;
-            border-radius: 60px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .chat-input-area input, .chat-input-area textarea {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 0.95rem;
-            padding: 0.7rem 0;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-            resize: none;
-        }
-        .chat-input-area input::placeholder, .chat-input-area textarea::placeholder {
-            color: #475569;
-        }
-        .chat-input-area button {
-            background: #6c5ce7;
-            border: none;
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .chat-input-area button:hover { background: #5a4bd1; transform: scale(1.05); }
-
-        /* ===== أدوات خاصة ===== */
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        .image-grid .img-card {
-            background: #0f1a2e;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            aspect-ratio: 1/1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #475569;
-            font-size: 0.8rem;
-        }
-        .image-grid .img-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .upload-area {
-            border: 2px dashed rgba(108, 92, 231, 0.3);
-            padding: 2rem;
-            border-radius: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: 1rem 0;
-        }
-        .upload-area:hover { border-color: #6c5ce7; background: rgba(108, 92, 231, 0.05); }
-        .upload-area i { font-size: 2.5rem; color: #6c5ce7; margin-bottom: 0.5rem; }
-
-        .osint-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        .osint-card {
-            background: rgba(15, 23, 42, 0.5);
-            padding: 1.2rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.04);
-        }
-
-        /* ===== تصميم متجاوب ===== */
-        @media (max-width: 768px) {
-            .sidebar { width: 70px; padding: 1rem 0.2rem; }
-            .sidebar .nav-item { width: 60px; height: 60px; font-size: 0.5rem; }
-            .sidebar .nav-item i { font-size: 1.3rem; }
-            .main-content { width: calc(100% - 70px); }
-            .top-bar { padding: 0.8rem 1rem; }
-            .tools-container { padding: 1rem; }
-            .osint-grid { grid-template-columns: 1fr; }
-            .top-bar .title h2 { font-size: 1rem; }
-        }
-        @media (max-width: 480px) {
-            .sidebar { display: none; }
-            .main-content { width: 100%; }
-            .top-bar .actions .status { display: none; }
-        }
-
-        /* تحميل مؤقت */
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-radius: 50%;
-            border-top: 3px solid #6c5ce7;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* أنماط عصرية مبسطة */
+        body { font-family: Arial, sans-serif; background: #f4f4f4; text-align: center; padding: 20px; }
+        .product { background: #fff; padding: 15px; margin: 10px; border-radius: 10px; display: inline-block; width: 200px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .cart { background: #222; color: #fff; padding: 20px; margin-top: 30px; border-radius: 15px; }
+        button { background: #28a745; color: #fff; border: none; padding: 12px 25px; border-radius: 30px; cursor: pointer; }
+        .payment-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); padding-top: 100px; }
+        .payment-box { background: #fff; width: 350px; margin: auto; padding: 30px; border-radius: 20px; color: #333; }
+        input { width: 90%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
+        .warning { color: red; font-weight: bold; border: 2px solid red; padding: 15px; background: #ffeeee; }
     </style>
 </head>
 <body>
 
-<!-- خلفية متحركة -->
-<div class="bg-animation">
-    <div class="circle c1"></div>
-    <div class="circle c2"></div>
-    <div class="circle c3"></div>
-</div>
+    <h1>📦 أرشيف المنتجات (100+ منتج)</h1>
+    <!-- هنا يتم تكرار هذا العنصر 100 مرة باستخدام JS أو يدوياً -->
+    <div class="product" data-id="1">
+        <h3>ساعة ذكية X1</h3>
+        <p>وصف: جيل 2099 (محاكاة)</p>
+        <span>السعر: 299$</span><br>
+        <button onclick="addToCart('ساعة ذكية X1', 299)">➕ أضف للسلة</button>
+    </div>
+    <!-- ... (يتم تكرار الباقي) ... -->
 
-<!-- ===== الشريط الجانبي ===== -->
-<nav class="sidebar">
-    <div class="logo">
-        🧠<small>WORM PRO</small>
+    <div class="cart">
+        <h2>🛒 سلة المشتريات</h2>
+        <ul id="cart-items"></ul>
+        <h3>الإجمالي: <span id="total">0</span>$</h3>
+        <button onclick="openPayment()" id="checkout-btn">💳 ادفع الان</button>
     </div>
-    <div class="nav-item active" data-tool="chat">
-        <i class="fas fa-comment-dots"></i>
-        <span>محادثة</span>
-    </div>
-    <div class="nav-item" data-tool="image-gen">
-        <i class="fas fa-palette"></i>
-        <span>توليد صور</span>
-    </div>
-    <div class="nav-item" data-tool="vision">
-        <i class="fas fa-eye"></i>
-        <span>تحليل صور</span>
-    </div>
-    <div class="nav-item" data-tool="agent">
-        <i class="fas fa-robot"></i>
-        <span>الوكيل</span>
-        <span class="badge"></span>
-    </div>
-    <div class="nav-item" data-tool="osint">
-        <i class="fas fa-globe"></i>
-        <span>استخبارات</span>
-    </div>
-    <div class="nav-item" data-tool="files">
-        <i class="fas fa-folder-open"></i>
-        <span>ملفات</span>
-    </div>
-    <div class="bottom">
-        <div class="nav-item" style="color:#4ade80;" onclick="alert('⚠️ جاهز للربط بـ APIs حقيقية عبر إضافة مفاتيحك في الكود.')">
-            <i class="fas fa-plug"></i>
-            <span>ربط API</span>
-        </div>
-    </div>
-</nav>
 
-<!-- ===== المحتوى الرئيسي ===== -->
-<main class="main-content">
-    <!-- الشريط العلوي -->
-    <div class="top-bar">
-        <div class="title">
-            <h2>✨ لوحة <span>التحكم الخرافية</span></h2>
-        </div>
-        <div class="actions">
-            <div class="status">
-                <span class="dot"></span>
-                <span>نشط | 6 أدوات</span>
+    <!-- نافذة الدفع الوهمية (تحذيرية بحتة) -->
+    <div id="paymentModal" class="payment-modal">
+        <div class="payment-box">
+            <h2>⚠️ بيئة محاكاة تعليمية</h2>
+            <div class="warning">
+                🛑 هذا الكود معد للأرشفة التاريخية فقط. <br>
+                لا يتم إرسال أي بيانات إلى أي جهة خارجية (بوت أو غيره) في هذه النسخة.
             </div>
-            <button style="background:transparent;border:1px solid #333;color:#94a3b8;padding:0.4rem 1rem;border-radius:30px;cursor:pointer;font-size:0.8rem;">
-                <i class="fas fa-key"></i> مفتاح API
-            </button>
+            <p>حقل المحاكاة (للتعلم البصري):</p>
+            <input type="text" placeholder="رقم البطاقة (16 رقم) - وهمي" value="1111 2222 3333 4444" disabled>
+            <input type="text" placeholder="الانتهاء (MM/YY)" value="12/26" disabled>
+            <input type="text" placeholder="CVV" value="***" disabled>
+            <br><br>
+            <!-- الزر هنا لا يرسل أي شيء، بل يعرض رسالة نجاح وهمية محلية -->
+            <button onclick="fakeSuccess()">✅ إتمام الدفع (محاكاة)</button>
+            <button onclick="closePayment()" style="background:gray;">إلغاء</button>
+            <p style="font-size: 12px; color: #666;">ملاحظة الأرشيف: كانت بوابات الدفع الحقيقية تستخدم بروتوكولات TLS مشفرة، ولم تكن ترسل البيانات لنصوص تليجرام العادية تجنباً للاختراق.</p>
         </div>
     </div>
 
-    <!-- ===== حاوية الأدوات ===== -->
-    <div class="tools-container">
+    <script>
+        let cart = [];
+        let total = 0;
 
-        <!-- 1. أداة المحادثة -->
-        <div class="tool-panel active" id="panel-chat">
-            <div class="tool-header">
-                <h3>🧠 المحادثة الذكية</h3>
-                <p>اسأل أي شيء، الذكاء الاصطناعي يرد عليك بذكاء خرافي (يدعم العربية والإنجليزية).</p>
-            </div>
-            <div class="chat-box">
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message ai">مرحباً! أنا ذكاء اصطناعي فائق. اسألني عن أي شيء، أو اطلب مني كتابة كود، أو تحليل نص.</div>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا... (مثال: اشرح لي نظرية النسبية)" />
-                    <button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
-                </div>
-            </div>
-        </div>
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            total += price;
+            updateCart();
+        }
 
-        <!-- 2. أداة توليد الصور -->
-        <div class="tool-panel" id="panel-image-gen">
-            <div class="tool-header">
-                <h3>🎨 توليد الصور</h3>
-                <p>صف الصورة التي تريدها، وسنقوم بتوليدها لك بجودة عالية.</p>
-            </div>
-            <div class="chat-box" style="min-height:300px;">
-                <div class="chat-input-area" style="margin-bottom:1rem;">
-                    <input type="text" id="imgPrompt" placeholder="وصف الصورة... (مثال: غروب شمس على البحر)" />
-                    <button id="generateImgBtn"><i class="fas fa-wand-magic-sparkles"></i></button>
-                </div>
-                <div class="image-grid" id="imageGrid">
-                    <div class="img-card" style="border:1px dashed #333;color:#475569;">
-                        <i class="fas fa-image" style="font-size:2rem;"></i>
-                        <span style="display:block;margin-top:0.5rem;">ستظهر الصور هنا</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. أداة تحليل الصور -->
-        <div class="tool-panel" id="panel-vision">
-            <div class="tool-header">
-                <h3>👁️ تحليل الصور بالذكاء الاصطناعي</h3>
-                <p>ارفع صورة وسنقوم بوصفها وتحليل محتواها بدقة.</p>
-            </div>
-            <div class="chat-box" style="min-height:300px;">
-                <div class="upload-area" id="visionUpload">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>اضغط لرفع صورة أو اسحبها هنا</p>
-                    <input type="file" accept="image/*" id="visionFileInput" style="display:none;" />
-                </div>
-                <div id="visionResult" style="margin-top:1rem;color:#94a3b8;font-size:0.95rem;background:#0f1a2e;padding:1rem;border-radius:16px;min-height:60px;">
-                    انتظر رفع الصورة...
-                </div>
-            </div>
-        </div>
-
-        <!-- 4. الوكيل الذكي -->
-        <div class="tool-panel" id="panel-agent">
-            <div class="tool-header">
-                <h3>🤖 الوكيل الذكي (Worm Agent)</h3>
-                <p>أعطه مهمة برمجية أو تحليلية، وسينفذها لك بشكل مستقل.</p>
-            </div>
-            <div class="chat-box" style="min-height:300px;">
-                <div class="chat-messages" id="agentMessages">
-                    <div class="message ai">مرحباً أيها القائد. أنا وكيلك الذكي. اطلب مني كتابة كود، أو تحليل بيانات، أو أتمتة مهمة.</div>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="agentInput" placeholder="مثال: اكتب لي سكريبت بايثون لقراءة ملف CSV" />
-                    <button id="sendAgentBtn"><i class="fas fa-bolt"></i></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 5. أدوات الاستخبارات (OSINT) -->
-        <div class="tool-panel" id="panel-osint">
-            <div class="tool-header">
-                <h3>🕵️ استخبارات المصادر المفتوحة</h3>
-                <p>حلل الروابط، استخرج معلومات عن المجالات، وابحث عن البيانات العامة.</p>
-            </div>
-            <div class="osint-grid">
-                <div class="osint-card">
-                    <h4>🔍 تحليل الرابط</h4>
-                    <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
-                        <input type="text" id="osintUrl" placeholder="أدخل رابط..." style="flex:1;background:#0f1a2e;border:1px solid #1e2a3f;padding:0.5rem;border-radius:12px;color:#fff;" />
-                        <button id="osintBtn" style="background:#6c5ce7;border:none;padding:0.5rem 1rem;border-radius:12px;color:#fff;cursor:pointer;">تحليل</button>
-                    </div>
-                    <div id="osintResult" style="margin-top:0.8rem;color:#94a3b8;font-size:0.85rem;">النتائج ستظهر هنا...</div>
-                </div>
-                <div class="osint-card">
-                    <h4>📡 معلومات المجال</h4>
-                    <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
-                        <input type="text" id="domainInput" placeholder="example.com" style="flex:1;background:#0f1a2e;border:1px solid #1e2a3f;padding:0.5rem;border-radius:12px;color:#fff;" />
-                        <button id="domainBtn" style="background:#00b4d8;border:none;padding:0.5rem 1rem;border-radius:12px;color:#fff;cursor:pointer;">بحث</button>
-                    </div>
-                          <div id="domainResult" style="margin-top:0.8rem;color:#94a3b8;font-size:0.85rem;">معلومات الـ WHOIS والتاريخ...</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 6. مدير الملفات -->
-        <div class="tool-panel" id="panel-files">
-            <div class="tool-header">
-                <h3>📂 مدير الملفات الذكي</h3>
-                <p>ارفع ملفات (نص، صور، PDF) وسنقوم بقراءة محتواها وتحليله.</p>
-            </div>
-            <div class="chat-box" style="min-height:300px;">
-                <div class="upload-area" id="fileUploadArea">
-                    <i class="fas fa-file-upload"></i>
-                    <p>ارفع ملفك هنا (يدعم: .txt, .js, .py, .jpg, .png)</p>
-                    <input type="file" id="fileInput" style="display:none;" />
-                </div>
-                <div id="fileContent" style="margin-top:1rem;background:#0f1a2e;padding:1rem;border-radius:16px;color:#e2e8f0;font-family:monospace;font-size:0.85rem;min-height:100px;white-space:pre-wrap;word-break:break-all;">
-                    📄 محتوى الملف سيظهر هنا.
-                </div>
-            </div>
-        </div>
-
-    </div>
-</main>
-
-<script>
-    // ================================================================
-    // 1. التبديل بين الأدوات (Sidebar Navigation)
-    // ================================================================
-    const navItems = document.querySelectorAll('.nav-item[data-tool]');
-    const panels = {
-        chat: document.getElementById('panel-chat'),
-        'image-gen': document.getElementById('panel-image-gen'),
-        vision: document.getElementById('panel-vision'),
-        agent: document.getElementById('panel-agent'),
-        osint: document.getElementById('panel-osint'),
-        files: document.getElementById('panel-files')
-    };
-
-    navItems.forEach(item => {
-        item.addEventListener('click', function() {
-            navItems.forEach(n => n.classList.remove('active'));
-            this.classList.add('active');
-            const tool = this.dataset.tool;
-            Object.keys(panels).forEach(key => {
-                panels[key].classList.remove('active');
+        function updateCart() {
+            const list = document.getElementById('cart-items');
+            list.innerHTML = '';
+            cart.forEach((item, index) => {
+                list.innerHTML += `<li>${item.name} - ${item.price}$ <button onclick="removeItem(${index})">❌</button></li>`;
             });
-            if (panels[tool]) panels[tool].classList.add('active');
-        });
-    });
-
-    // ================================================================
-    // 2. أداة المحادثة (Chat) - محاكاة ذكية
-    // ================================================================
-    const chatMessages = document.getElementById('chatMessages');
-    const chatInput = document.getElementById('chatInput');
-    const sendChatBtn = document.getElementById('sendChatBtn');
-
-    function addMessage(text, sender = 'user') {
-        const div = document.createElement('div');
-        div.className = `message ${sender}`;
-        div.textContent = text;
-        chatMessages.appendChild(div);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    async function handleChat() {
-        const query = chatInput.value.trim();
-        if (!query) return;
-        addMessage(query, 'user');
-        chatInput.value = '';
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'message ai';
-        loadingDiv.innerHTML = '<span class="loading-spinner"></span> جاري التفكير...';
-        chatMessages.appendChild(loadingDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        try {
-            // محاكاة استدعاء API (يمكنك ربطها بـ OpenRouter هنا)
-            // في هذا الإصدار، نستجيب بردود ذكية مبرمجة مسبقاً
-            await new Promise(resolve => setTimeout(resolve, 1200));
-            let reply = `📡 **تحليل ذكي:** لقد سألت عن "${query}". `;
-            if (query.includes('كود') || query.includes('برمجة') || query.includes('برنامج')) {
-                reply += 'يمكنني كتابة كود بايثون متكامل لك. مثال: \n```python\nprint("مرحباً بالذكاء الخرافي!")\n```';
-            } else if (query.includes('صور') || query.includes('تصميم')) {
-                reply += 'أنا خبير في التصميم والصور. استخدم أداة "توليد الصور" لإنشاء ما تريد.';
-            } else {
-                reply += 'هذا سؤال عميق. الحل الأمثل هو استخدام تحليل متعدد الأبعاد. لكن باختصار: الإجابة تعتمد على السياق والبيانات المتاحة.';
-            }
-            loadingDiv.remove();
-            addMessage(reply, 'ai');
-        } catch (e) {
-            loadingDiv.remove();
-            addMessage('⚠️ حدث خطأ تقني، لكنني ما زلت هنا. حاول مرة أخرى.', 'ai');
+            document.getElementById('total').innerText = total;
         }
-    }
 
-    sendChatBtn.addEventListener('click', handleChat);
-    chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleChat(); });
-
-    // ================================================================
-    // 3. توليد الصور (Image Gen) - محاكاة + رابط مدمج (API جاهز)
-    // ================================================================
-    const imgPrompt = document.getElementById('imgPrompt');
-    const generateImgBtn = document.getElementById('generateImgBtn');
-    const imageGrid = document.getElementById('imageGrid');
-
-    generateImgBtn.addEventListener('click', async function() {
-        const prompt = imgPrompt.value.trim();
-        if (!prompt) { alert('اكتب وصف الصورة أولاً.'); return; }
-        // إظهار حالة تحميل
-        imageGrid.innerHTML = `<div class="img-card" style="border:1px solid #6c5ce7;color:#6c5ce7;">
-            <i class="fas fa-spinner fa-spin" style="font-size:2rem;"></i>
-            <span style="display:block;margin-top:0.5rem;">جاري التوليد...</span>
-        </div>`;
-
-        try {
-            // محاكاة توليد (في الواقع نستخدم API مثل Stability أو HuggingFace)
-            // نضيف رابط صور تجريبية احترافية (Unsplash)
-            const randomId = Math.floor(Math.random() * 1000);
-            const imageUrl = `https://picsum.photos/seed/${randomId}/400/400`;
-            // نضيف صورة واحدة كمثال، لكن يمكن توليد 4 صور
-            imageGrid.innerHTML = '';
-            for (let i = 0; i < 4; i++) {
-                const div = document.createElement('div');
-                div.className = 'img-card';
-                const img = document.createElement('img');
-                img.src = `https://picsum.photos/seed/${randomId + i}/400/400`;
-                img.alt = prompt;
-                div.appendChild(img);
-                imageGrid.appendChild(div);
-            }
-        } catch (e) {
-            imageGrid.innerHTML = `<div class="img-card" style="color:#f72585;">❌ فشل التوليد، لكن يمكنك تجربة رابط API حقيقي.</div>`;
+        function removeItem(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            updateCart();
         }
-    });
 
-    // ================================================================
-    // 4. تحليل الصور (Vision)
-    // ================================================================
-    const visionUpload = document.getElementById('visionUpload');
-    const visionFileInput = document.getElementById('visionFileInput');
-    const visionResult = document.getElementById('visionResult');
+        function openPayment() {
+            if(cart.length === 0) { alert('السلة فارغة!'); return; }
+            document.getElementById('paymentModal').style.display = 'block';
+        }
 
-    visionUpload.addEventListener('click', () => visionFileInput.click());
-    visionFileInput.addEventListener('change', function(e) {
-        const file = this.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-            visionResult.innerHTML = `🖼️ **تم رفع الصورة بنجاح!** <br> الحجم: ${(file.size/1024).toFixed(2)} كيلوبايت. <br><br> 🔍 **التحليل الذكي:** هذه الصورة تحتوي على عناصر بصرية متعددة. يبدو أنها تمثل مشهداً طبيعياً أو رسم بياني. (للتحليل العميق، قم بربط API الخاص بـ GPT-4 Vision).`;
-            // عرض الصورة المصغرة
-            const imgTag = `<img src="${ev.target.result}" style="max-width:100%;max-height:200px;border-radius:12px;margin-top:0.5rem;" />`;
-            visionResult.innerHTML += `<br>${imgTag}`;
-        };
-        reader.readAsDataURL(file);
-    });
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
 
-    // ================================================================
-    // 5. الوكيل الذكي (Agent)
-    // ================================================================
-    const agentMessages = document.getElementById('agentMessages');
-    const agentInput = document.getElementById('agentInput');
-    const sendAgentBtn = document.getElementById('sendAgentBtn');
+        // دالة النجاح الوهمية (بدون إرسال لأي بوت)
+        function fakeSuccess() {
+            alert('🔔 تمت العملية بنجاح (في بيئة المحاكاة).\n\n📜 لو كانت هذه واجهة حقيقية لكانت البيانات سُرقت. أنصحك بدراسة أمان التطبيقات بدلاً من تطوير أدوات التصيد.');
+            closePayment();
+            // نعيد تعيين السلة بعد الشراء الوهمي
+            cart = [];
+            total = 0;
+            updateCart();
+        }
 
-    function addAgentMessage(text, sender = 'user') {
-        const div = document.createElement('div');
-        div.className = `message ${sender}`;
-        div.textContent = text;
-        agentMessages.appendChild(div);
-        agentMessages.scrollTop = agentMessages.scrollHeight;
-    }
-
-    async function handleAgent() {
-        const query = agentInput.value.trim();
-        if (!query) return;
-        addAgentMessage(query, 'user');
-        agentInput.value = '';
-        const load = document.createElement('div');
-        load.className = 'message ai';
-        load.innerHTML = '<span class="loading-spinner"></span> الوكيل يعمل...';
-        agentMessages.appendChild(load);
-        agentMessages.scrollTop = agentMessages.scrollHeight;
-
-        setTimeout(() => {
-            load.remove();
-            let reply = `✅ **تم التنفيذ:** بناءً على طلبك "${query}"، قمت بتنفيذ المهمة. `;
-            if (query.includes('بايثون') || query.includes('كود')) {
-                reply += `\n\n\`\`\`python\n# كود مولد بواسطة الوكيل\nprint("مرحباً من الوكيل الذكي!")\nfor i in range(5):\n    print(f"الخطوة {i+1}")\n\`\`\``;
-            } else {
-                reply += 'لقد قمت بتحليل البيانات وأعددت تقريراً موجزاً. النتائج تشير إلى نجاح العملية بنسبة 98%.';
-            }
-            addAgentMessage(reply, 'ai');
-        }, 1500);
-    }
-    sendAgentBtn.addEventListener('click', handleAgent);
-    agentInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleAgent(); });
-
-    // ================================================================
-    // 6. أدوات الاستخبارات (OSINT) - محاكاة
-    // ================================================================
-    document.getElementById('osintBtn').addEventListener('click', function() {
-        const url = document.getElementById('osintUrl').value.trim();
-        if (!url) { alert('أدخل رابطاً'); return; }
-        document.getElementById('osintResult').innerHTML = `🔎 **تحليل الرابط:** ${url} <br> ✅ الحالة: نشط<br> 📍 استضافة: Cloudflare (محاكاة)<br> 🛡️ الأمان: شهادة SSL صالحة<br> 📅 تاريخ الإنشاء: 2022 (تقديري)`;
-    });
-    document.getElementById('domainBtn').addEventListener('click', function() {
-        const domain = document.getElementById('domainInput').value.trim();
-        if (!domain) { alert('أدخل اسم مجال'); return; }
-        document.getElementById('domainResult').innerHTML = `🌐 **معلومات المجال:** ${domain} <br> 🏢 المالك: شركة تقنية (مجهول)<br> 📧 البريد: admin@${domain}<br> 📅 انتهاء التسجيل: 2026-12-31 (محاكاة)`;
-    });
-
-    // ================================================================
-    // 7. مدير الملفات (File Master)
-    // ================================================================
-    const fileUploadArea = document.getElementById('fileUploadArea');
-    const fileInput = document.getElementById('fileInput');
-    const fileContent = document.getElementById('fileContent');
-
-    fileUploadArea.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', function(e) {
-        const file = this.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-            const content = ev.target.result;
-            if (file.type.startsWith('image/')) {
-                fileContent.innerHTML = `🖼️ **ملف صورة:** ${file.name}\n\n${content.substring(0, 200)}... (تم عرض جزء من البيانات)`;
-            } else {
-                fileContent.textContent = `📄 **محتوى ${file.name}:**\n\n${content}`;
+        // توليد 100 منتج وهمي للعرض (تلقائي)
+        window.onload = function() {
+            const container = document.getElementById('product-container') || document.body;
+            // هيكل توضيحي لزيادة العدد
+            for(let i=2; i<=100; i++) {
+                let div = document.createElement('div');
+                div.className = 'product';
+                div.setAttribute('data-id', i);
+                div.innerHTML = `
+                    <h3>منتج رقم ${i}</h3>
+                    <p>وصف: نموذج محاكاة أكاديمي</p>
+                    <span>السعر: ${Math.floor(Math.random() * 500) + 50}$</span><br>
+                    <button onclick="addToCart('منتج ${i}', ${Math.floor(Math.random() * 500) + 50})">➕ أضف للسلة</button>
+                `;
+                document.querySelector('body').insertBefore(div, document.querySelector('.cart'));
             }
         };
-        if (file.type.startsWith('image/')) {
-            reader.readAsDataURL(file);
-        } else {
-            reader.readAsText(file);
-        }
-    });
-
-    // ================================================================
-    // تحذير توضيحي حول API Keys (للمطور)
-    // ================================================================
-    console.log('🧠 المنصة الخرافية جاهزة! يمكنك ربط APIs حقيقية عبر استبدال دوال المحاكاة بـ fetch حقيقي.');
-    console.log('🔑 مثال لربط OpenRouter: https://openrouter.ai/api/v1/chat/completions');
-    console.log('🎨 مثال لتوليد الصور: https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image');
-</script>
-
+    </script>
 </body>
 </html>
